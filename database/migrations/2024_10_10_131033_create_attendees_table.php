@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Symfony\Contracts\EventDispatcher\Event;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration {
