@@ -7,6 +7,7 @@ use App\Http\Resources\EventResource;
 use App\Http\Traits\CanLoadRelationships;
 use Illuminate\Http\Request;
 use \App\Models\Event;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -34,8 +35,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $event = Event::create([
             ...$request->validate([
                 'name' => 'required|string|max:255',
@@ -62,6 +61,9 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
+
+        $this->authorize('update-event', $event);
+
         $event->update(
             $request->validate([
                 'name' => 'sometimes|string|max:255',
