@@ -7,7 +7,6 @@ use App\Http\Resources\EventResource;
 use App\Http\Traits\CanLoadRelationships;
 use Illuminate\Http\Request;
 use \App\Models\Event;
-use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -18,7 +17,7 @@ class EventController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'showBySlug']);
     }
     /**
      * Display a listing of the resource.
@@ -53,6 +52,17 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        return new EventResource($event);
+    }
+
+    public function showBySlug(string $slug)
+    {
+        $event = Event::where('slug', '=', $slug)->first();
+
+        if (!$event) {
+            return response()->json(['message' => 'Event not found'], 404);
+        }
+
         return new EventResource($event);
     }
 
