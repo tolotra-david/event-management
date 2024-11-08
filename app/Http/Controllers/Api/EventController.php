@@ -57,7 +57,8 @@ class EventController extends Controller
 
     public function showBySlug(string $slug)
     {
-        $event = Event::where('slug', '=', $slug)->first();
+
+        $event = Event::with('attendees.user')->where('slug', '=', $slug)->first();
 
         if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
